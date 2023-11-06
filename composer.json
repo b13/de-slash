@@ -1,0 +1,31 @@
+{
+    "name": "b13/de-slash",
+    "type": "typo3-cms-extension",
+    "description": "In case you do not want to havea trailing slash in your URLs, this extension will remove it",
+	"keywords": ["seo", "typo3", "trailing slash"],
+	"license": "GPL-2.0-or-later",
+    "require": {
+        "typo3/cms-core": "^11.5 || ^12.4"
+    },
+    "suggest": {
+        "typo3/cms-seo": "*"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "de_slash"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "B13\\DeSlash\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "B13\\DeSlash\\Tests\\": "Tests/"
+        }
+    },
+    "require-dev": {
+        "typo3/testing-framework": "^8.0"
+    }
+}

@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  B13\DeSlash\:
+    resource: '../Classes/*'
+
+  B13\DeSlash\DeSlashCanonicalUrl:
+    tags:
+      - name: event.listener
+
+  B13\DeSlash\DeSlashingPageLinkBuilder:
+    tags:
+      - name: event.listener
