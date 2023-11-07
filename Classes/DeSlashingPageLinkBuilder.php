@@ -26,6 +26,9 @@ final class DeSlashingPageLinkBuilder
     {
         /** @var LinkResultInterface $linkResult */
         $linkResult = $event->getLinkResult();
+        if ($linkResult->getUrl() === '/') {
+            return;
+        }
         if ($linkResult->getType() === LinkService::TYPE_PAGE && str_ends_with($linkResult->getUrl(), '/')) {
             $linkResult = $linkResult->withAttribute('href', rtrim($linkResult->getUrl(), '/'));
             $event->setLinkResult($linkResult);
@@ -48,6 +51,9 @@ final class DeSlashingPageLinkBuilder
     public function typolinkPostProc(array &$params, ContentObjectRenderer $cObj): void
     {
         if ($params['linkDetails']['type'] !== LinkService::TYPE_PAGE) {
+            return;
+        }
+        if ($cObj->lastTypoLinkResult->getUrl() === '/') {
             return;
         }
         if (str_ends_with($cObj->lastTypoLinkResult->getUrl(), '/')) {
