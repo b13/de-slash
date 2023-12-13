@@ -14,3 +14,7 @@ services:
   B13\DeSlash\DeSlashingPageLinkBuilder:
     tags:
       - name: event.listener
+
+  B13\DeSlash\DeSlashHrefLangGenerator:
+    tags:
+      - name: event.listener
