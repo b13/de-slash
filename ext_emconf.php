@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of TYPO3 CMS-based extension "de_slash" by b13.
  *
