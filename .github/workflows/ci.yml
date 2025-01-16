@@ -35,7 +35,7 @@ jobs:
       - name: Install composer dependencies TYPO3 13
         if: matrix.TYPO3 == '13'
         run: |
-          composer install --no-progress --no-interaction
+          composer require typo3/cms-seo:^13.4 --no-progress --no-interaction --dev -W
 
       - name: Install composer dependencies TYPO3 12
         if: matrix.TYPO3 == '12'
