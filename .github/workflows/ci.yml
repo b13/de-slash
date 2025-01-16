@@ -10,9 +10,6 @@ jobs:
       matrix:
         TYPO3: [ 12.4, 13.4]
         PHP: [ 8.2, 8.3 ]
-        include:
-          - TYPO3: 11.5
-            PHP: 8.1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -39,12 +36,8 @@ jobs:
         run: |
           composer require typo3/cms-seo:^${{ matrix.TYPO3 }} --no-progress --no-interaction --dev -W
 
-      - name: Phpstan 13
-        if: matrix.TYPO3 != '11.5'
+      - name: Phpstan ${{ matrix.TYPO3 }}
         run: .Build/bin/phpstan analyze -c Build/phpstan.neon
-      - name: Phpstan 12
-        if: matrix.TYPO3 == '11.5'
-        run: .Build/bin/phpstan analyze -c Build/phpstan11.neon
       - name: Phpcsfix
         run: .Build/bin/php-cs-fixer fix --config=Build/php-cs-fixer.php --dry-run --stop-on-violation --using-cache=no
       - name: Functional Tests

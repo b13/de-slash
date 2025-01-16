@@ -5,7 +5,7 @@
 	"keywords": ["seo", "typo3", "trailing slash"],
 	"license": "GPL-2.0-or-later",
     "require": {
-        "typo3/cms-core": "^11.5 || ^12.4 || ^13.4"
+        "typo3/cms-core": "^12.4 || ^13.4"
     },
     "suggest": {
         "typo3/cms-seo": "*"
