@@ -12,7 +12,7 @@ jobs:
         PHP: [ 8.2, 8.3 ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up PHP Version ${{ matrix.PHP }}
         uses: shivammathur/setup-php@v2
@@ -27,7 +27,7 @@ jobs:
         run: composer validate
 
       - name: Cache dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ hashFiles('composer.json') }}
