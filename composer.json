@@ -15,7 +15,7 @@
             "extension-key": "de_slash",
             "web-dir": ".Build/Web",
             "app-dir": ".Build",
-            "version": "2.0.0",
+            "version": "3.0.0",
             "Package": {
                 "providesPackages": {}
             }
