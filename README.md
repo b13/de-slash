@@ -4,23 +4,24 @@ With TYPO3, it is possible to have a trailing slash in your URLs,
 but also without them - depending on the use-case.
 
 By default, TYPO3 does not have a trailing slash at the end of
-each URL, but there are some technical limitations, why it e.g.
-happens on the home page, where there is always a trailing slash.
+each URL, but there are some technical limitations which, for example,
+cause it to happen on the home page where there is always a trailing slash.
 
-You can configure an ending like ".html" or "/" for each URL,
-and have more enhancers for plugins.
+You can configure a suffix like `.html` or `/` for each URL,
+and have additional enhancers for plugins.
 
-This extension works in a naive way to remove trailing slashes
-from
+This extension works in a straightforward way to remove trailing slashes
+from:
 
 * All generated links
-* All your canonical URLs
+* All canonical URLs
+* HrefLang tags
 
-It even redirects incoming URLs with a trailing slash into the same page without.
+It even redirects incoming URLs with a trailing slash to the same URL without one.
 
 ## Configuration
 
-Install the extension, ensure that all your site configuration base's for languages do NOT have a trailing slash
+Install the extension and ensure that all your site configuration bases for languages do NOT have a trailing slash.
 
 Good: `base: 'https://example.com/en'`
 Bad: `base: 'https://example.com/en/'`
@@ -32,7 +33,7 @@ That's it.
 
 ## Caveats
 
-* Ensure that you do not have a enhancer or PageType decorator that creates URLs (also for plugins) with a trailing slash.
+* Ensure that you do not have an enhancer or PageType decorator that creates URLs (also for plugins) with a trailing slash.
 
 * Redirects will only work on GET or HEAD requests.
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace B13\DeSlash;
 
+use B13\DeSlash\Service\UriCleaner;
 use TYPO3\CMS\Seo\Event\ModifyUrlForCanonicalTagEvent;
 
 /**
@@ -19,12 +20,14 @@ use TYPO3\CMS\Seo\Event\ModifyUrlForCanonicalTagEvent;
  */
 class DeSlashCanonicalUrl
 {
+    public function __construct(private readonly UriCleaner $uriCleaner) {}
+
     public function __invoke(ModifyUrlForCanonicalTagEvent $event): void
     {
         $url = $event->getUrl();
-        if (str_ends_with($url, '/')) {
-            $url = rtrim($url, '/');
-            $event->setUrl($url);
+        $newUrl = $this->uriCleaner->removeTrailingSlashFromPath($url);
+        if ($newUrl !== $url) {
+            $event->setUrl($newUrl);
         }
     }
 }

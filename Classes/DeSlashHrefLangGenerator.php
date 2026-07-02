@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace B13\DeSlash;
 
+use B13\DeSlash\Service\UriCleaner;
 use TYPO3\CMS\Frontend\Event\ModifyHrefLangTagsEvent;
 
 /**
@@ -19,13 +20,13 @@ use TYPO3\CMS\Frontend\Event\ModifyHrefLangTagsEvent;
  */
 class DeSlashHrefLangGenerator
 {
+    public function __construct(private readonly UriCleaner $uriCleaner) {}
+
     public function __invoke(ModifyHrefLangTagsEvent $event): void
     {
         $hrefLangs = $event->getHrefLangs();
         foreach ($hrefLangs as $key => $hrefLang) {
-            if (str_ends_with($hrefLang, '/')) {
-                $hrefLangs[$key] = rtrim($hrefLang, '/');
-            }
+            $hrefLangs[$key] = $this->uriCleaner->removeTrailingSlashFromPath($hrefLang);
         }
         $event->setHrefLangs($hrefLangs);
     }

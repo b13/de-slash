@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace B13\DeSlash;
 
+use B13\DeSlash\Service\UriCleaner;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Frontend\Event\AfterLinkIsGeneratedEvent;
 use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
@@ -21,6 +22,8 @@ use TYPO3\CMS\Frontend\Typolink\LinkResultInterface;
  */
 final class DeSlashingPageLinkBuilder
 {
+    public function __construct(private readonly UriCleaner $uriCleaner) {}
+
     public function __invoke(AfterLinkIsGeneratedEvent $event): void
     {
         /** @var LinkResultInterface $linkResult */
@@ -28,9 +31,16 @@ final class DeSlashingPageLinkBuilder
         if ($linkResult->getUrl() === '/') {
             return;
         }
-        if ($linkResult->getType() === LinkService::TYPE_PAGE && str_ends_with($linkResult->getUrl(), '/')) {
-            $linkResult = $linkResult->withAttribute('href', rtrim($linkResult->getUrl(), '/'));
-            $event->setLinkResult($linkResult);
+        if ($linkResult->getType() === LinkService::TYPE_PAGE) {
+            $url = $linkResult->getUrl();
+            $newUrl = $this->uriCleaner->removeTrailingSlashFromPath($url);
+            if ($newUrl !== $url) {
+                // Note: LinkResultInterface does not provide a withUrl() or equivalent method to update the internal URL.
+                // Downstream code calling LinkResult::getUrl() will still receive the old URL.
+                // We update the 'href' attribute which is used when rendering the actual HTML anchor tag.
+                $linkResult = $linkResult->withAttribute('href', $newUrl);
+                $event->setLinkResult($linkResult);
+            }
         }
     }
 }

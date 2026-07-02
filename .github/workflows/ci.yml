@@ -1,18 +1,27 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron:  '56 5 * * *'
 
 jobs:
   testsuite:
 
-    runs-on: ubuntu-latest
+    name: all tests
+    runs-on: ubuntu-22.04
     strategy:
+      fail-fast: false
       matrix:
-        TYPO3: [ 12.4, 13.4]
-        PHP: [ 8.2, 8.3 ]
+        TYPO3: [ '13.4', '14.3' ]
+        PHP: [ '8.2', '8.3', '8.4', '8.5' ]
+        exclude:
+          - TYPO3: '14.3'
+            PHP: '8.2'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up PHP Version ${{ matrix.PHP }}
         uses: shivammathur/setup-php@v2
@@ -27,7 +36,7 @@ jobs:
         run: composer validate
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.composer/cache
           key: dependencies-composer-${{ hashFiles('composer.json') }}
@@ -40,6 +49,8 @@ jobs:
         run: .Build/bin/phpstan analyze -c Build/phpstan.neon
       - name: Phpcsfix
         run: .Build/bin/php-cs-fixer fix --config=Build/php-cs-fixer.php --dry-run --stop-on-violation --using-cache=no
+      - name: Unit Tests
+        run: .Build/bin/phpunit Tests/Unit
       - name: Functional Tests
         run: |
           export typo3DatabaseName="typo3";
