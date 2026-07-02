@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class TrailingSlashRedirectorEvent
 {
-    public $skipRedirect = false;
+    public bool $skipRedirect = false;
 
     public function __construct(public readonly ServerRequestInterface $request) {}
 }
